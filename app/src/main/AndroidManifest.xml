@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.handysparksoft.screenlockertile">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,7 +28,6 @@
             </intent-filter>
         </activity>
 
-
         <service
             android:name=".ScreenLockerTileService"
             android:exported="true"
@@ -44,6 +46,11 @@
                 android:name="android.service.quicksettings.ACTIVE_TILE"
                 android:value="true" />
         </service>
+
+        <service
+            android:name=".ScreenLockerService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

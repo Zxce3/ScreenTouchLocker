@@ -17,6 +17,13 @@ class ScreenLockerTileService : TileService() {
     override fun onClick() {
         super.onClick()
         val activeState = qsTile.state == Tile.STATE_ACTIVE
+        if (activeState) {
+            // Turn off
+            ScreenLockerService.stopService(this)
+        } else {
+            // Turn on
+            ScreenLockerService.startService(this)
+        }
         updateTileState(!activeState)
     }
 
