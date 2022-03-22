@@ -1,6 +1,5 @@
-package com.handysparksoft.screenlockertile;
+package com.handysparksoft.screenlockertile
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -8,50 +7,51 @@ import android.app.Service
 import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.IBinder
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 
 class ScreenLockerService : Service() {
 
     private var manuallyStopped: Boolean = false
-    private lateinit var screenLockerTileService: ScreenLockerTileService
-
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
 
     override fun onCreate() {
         super.onCreate()
 
-        startScreenLockerService()
+        startService()
+        this.logdAndToast("Service created")
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        checkIntent(intent)
-        return START_STICKY
-    }
 
-    private fun checkIntent(intent: Intent?) {
-        intent?.action?.let { action ->
-            when (action) {
-                ACTION_STOP -> {
-                    manuallyStopped = true
-                    stopForeground(true)
-                    stopSelf()
-                }
-            }
+        val action = intent.action
+
+        // Stop the service if we receive the Stop action.
+        // START_NOT_STICKY is important here, we don't want the service to be relaunched.
+        if (action == ScreenLockerAction.ActionStop.name) {
+            manuallyStopped = true
+            stopService()
+            this.logdAndToast("Action stop")
+            return START_NOT_STICKY
         }
+
+        if (action == ScreenLockerAction.ActionLock.name) {
+            this.logdAndToast("Action Lock")
+        }
+        return START_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
+        ScreenLockerTileService.stopTileService(this)
         if (!manuallyStopped) {
             forceRestartService()
         }
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
     }
 
     private fun forceRestartService() {
@@ -61,15 +61,11 @@ class ScreenLockerService : Service() {
         //        this.sendBroadcast(broadcastIntent)
     }
 
-    private fun startScreenLockerService() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannelAndStartForeground()
-        } else {
-            startForeground(2, Notification())
-        }
+    private fun startService() {
+        createNotificationChannelAndStartForeground()
+        ScreenLockerTileService.startTileService(this)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannelAndStartForeground() {
         val notificationChannelId = "screenLockerForegroundService"
         val channelName = "Foreground service ScreenLocker"
@@ -86,9 +82,8 @@ class ScreenLockerService : Service() {
             it.createNotificationChannel(notificationChannel)
 
             val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
-
             val notificationIntent = Intent(this, MainActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+            val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             val notification = notificationBuilder
                 .setOngoing(true)
                 .setContentTitle(getString(R.string.foreground_notification_content_title))
@@ -97,11 +92,9 @@ class ScreenLockerService : Service() {
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setContentIntent(pendingIntent)
-                //                .setStyle(
-                //                    NotificationCompat.BigTextStyle()
-                //                        .bigText(getString(R.string.foreground_notification_big_text))
-                //                        .setSummaryText(getString(R.string.foreground_notification_summary))
-                //                )
+                .setStyle(
+                    NotificationCompat.BigTextStyle().bigText(getString(R.string.foreground_notification_content_text_big))
+                )
                 .addAction(getStopAction())
                 .build()
 
@@ -109,10 +102,10 @@ class ScreenLockerService : Service() {
         }
     }
 
-    private fun getStopAction(): NotificationCompat.Action? {
+    private fun getStopAction(): NotificationCompat.Action {
         val intent = Intent(this, ScreenLockerService::class.java)
-        intent.action = ACTION_STOP
-        val pendingIntent = PendingIntent.getService(this, 0, intent, 0)
+        intent.action = ScreenLockerAction.ActionStop.toString() //ACTION_STOP
+        val pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Action(
             R.drawable.ic_stop,
             getString(R.string.foreground_notification_stop_action),
@@ -120,34 +113,36 @@ class ScreenLockerService : Service() {
         )
     }
 
+    /**
+     * Remove the foreground notification and stop the service.
+     */
+    private fun stopService() {
+        stopForeground(true)
+        stopSelf()
+        this.logdAndToast("Service stopped")
+    }
+
+
     companion object {
 
-        const val ACTION_STOP = "ACTION_STOP"
+        //        private const val ACTION_STOP = "ACTION_STOP"
 
-        fun startService(context: ContextWrapper) {
+        fun startService(context: ContextWrapper, action: ScreenLockerAction = ScreenLockerAction.ActionStart) {
             val serviceIntent = Intent(context, ScreenLockerService::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(serviceIntent)
-            } else {
-                context.startService(serviceIntent)
-            }
-            context.logd("Service initialized")
-            context.toast("Service initialized")
+            serviceIntent.action = action.toString()
+            context.startForegroundService(serviceIntent)
         }
 
         fun stopService(context: ContextWrapper) {
             val serviceIntent = Intent(context, ScreenLockerService::class.java)
 
             // This action will stop the service manually (So no conflict with autorestart feature)
-            serviceIntent.action = ACTION_STOP
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(serviceIntent)
-            } else {
-                context.startService(serviceIntent)
-            }
-            context.logd("Service stopped")
-            context.toast("Service stopped")
+            serviceIntent.action = ScreenLockerAction.ActionStop.toString() //ACTION_STOP
+            context.startForegroundService(serviceIntent)
         }
     }
 }
 
+enum class ScreenLockerAction { ActionStart, ActionStop, ActionLock }
+
+//    override fun toString(): String = this::class.java.simpleName

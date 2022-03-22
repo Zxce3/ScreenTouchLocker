@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ScreenLockerTile</string>
-    <string name="foreground_notification_content_title">Screen Locker</string>
-    <string name="foreground_notification_content_text">Top to lock the screen</string>
+    <string name="foreground_notification_content_title">Screen Locker activated</string>
+    <string name="foreground_notification_content_text">Tap to unlock the screen</string>
+    <string name="foreground_notification_content_text_big">While ScreenLocker is activated the device screen is locked and touches will not  have any effect.</string>
     <string name="foreground_notification_stop_action">Stop the locker</string>
 </resources>
