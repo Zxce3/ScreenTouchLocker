@@ -1,5 +1,6 @@
 package com.handysparksoft.screenlockertile
 
+import android.content.ComponentName
 import android.content.ContextWrapper
 import android.content.Intent
 import android.service.quicksettings.Tile
@@ -14,11 +15,12 @@ class ScreenLockerTileService : TileService() {
 
     override fun onTileAdded() {
         super.onTileAdded()
-        updateTileState(true)
+        updateTileState(false)
     }
 
-    override fun onTileRemoved() {
-        super.onTileRemoved()
+    override fun onStartListening() {
+        super.onStartListening()
+        val a = "dd"
     }
 
     override fun onClick() {
@@ -26,36 +28,43 @@ class ScreenLockerTileService : TileService() {
         val activeState = qsTile.state == Tile.STATE_ACTIVE
         if (activeState) {
             // Turn off
-            ScreenLockerService.stopService(this)
+            ScreenLockerService.startService(context = this, action = ScreenLockerAction.ActionUnlock)
         } else {
             // Turn on
-            ScreenLockerService.startService(this)
+            if (drawOverOtherAppsEnabled()) {
+                updateTileState(true)
+                ScreenLockerService.startService(context = this, action = ScreenLockerAction.ActionLock)
+            } else {
+                startActivityAndCollapse(getOverlayPermissionIntent())
+                updateTileState(false)
+                //showDialog(PermissionRequiredDialog)
+            }
         }
-        updateTileState(!activeState)
     }
 
     private fun checkIntent(intent: Intent?) {
         intent?.action?.let { action ->
             when (action) {
-                ACTION_TILE_START -> updateTileState(true)
-                ACTION_TILE_STOP -> updateTileState(false)
+                TileAction.ActionTileStart.name -> updateTileState(true)
+                TileAction.ActionTileStop.name -> updateTileState(false)
             }
         }
     }
 
     private fun updateTileState(activeState: Boolean) {
-        qsTile?.state = if (activeState) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-        qsTile?.updateTile()
+        if (qsTile != null) {
+            qsTile?.state = if (activeState) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+            qsTile?.updateTile()
+        } else {
+            requestListeningState(this, ComponentName(this, ScreenLockerTileService::class.java))
+        }
     }
 
     companion object {
 
-        private const val ACTION_TILE_START = "ACTION_TILE_START"
-        private const val ACTION_TILE_STOP = "ACTION_TILE_STOP"
-
         fun startTileService(context: ContextWrapper) {
             Intent(context, ScreenLockerTileService::class.java).also {
-                it.action = ACTION_TILE_START
+                it.action = TileAction.ActionTileStart.name
                 context.startService(it)
                 context.logdAndToast("Tile started")
             }
@@ -63,10 +72,12 @@ class ScreenLockerTileService : TileService() {
 
         fun stopTileService(context: ContextWrapper) {
             Intent(context, ScreenLockerTileService::class.java).also {
-                it.action = ACTION_TILE_STOP
+                it.action = TileAction.ActionTileStop.name
                 context.startService(it)
                 context.logdAndToast("Tile stopped")
             }
         }
     }
 }
+
+enum class TileAction { ActionTileStart, ActionTileStop }

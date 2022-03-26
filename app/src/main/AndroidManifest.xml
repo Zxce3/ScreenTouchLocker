@@ -4,6 +4,7 @@
     package="com.handysparksoft.screenlockertile">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +19,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.ScreenLockerTile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,13 +52,12 @@
             android:enabled="true"
             android:exported="true"
             android:roundIcon="@mipmap/ic_launcher_round"
-            android:stopWithTask="false"
-            />
+            android:stopWithTask="false" />
     </application>
 </manifest>
 
-<!--
-This app takes as a reference a good part of this posts from Václav Hodek (@vaclavhodek)
-- https://medium.com/localazy/floating-windows-on-android-1-jetpack-compose-room-a4f377c86dd5
-- https://localazy.com/blog/floating-windows-on-android-2-foreground-service
--->
+    <!--
+    This app takes as a reference a good part of this posts from Václav Hodek (@vaclavhodek)
+    - https://medium.com/localazy/floating-windows-on-android-1-jetpack-compose-room-a4f377c86dd5
+    - https://localazy.com/blog/floating-windows-on-android-2-foreground-service
+    -->

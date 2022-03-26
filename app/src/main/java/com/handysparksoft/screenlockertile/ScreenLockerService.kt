@@ -4,7 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.ContextWrapper
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.IBinder
@@ -36,7 +36,17 @@ class ScreenLockerService : Service() {
         }
 
         if (action == ScreenLockerAction.ActionLock.name) {
-            this.logdAndToast("Action Lock")
+            if (!drawOverOtherAppsEnabled()) {
+                requestOverlayPermission()
+            } else {
+                ScreenLockerTileService.startTileService(this)
+                this.logdAndToast("Action Lock")
+            }
+        }
+
+        if (action == ScreenLockerAction.ActionUnlock.name) {
+            ScreenLockerTileService.stopTileService(this)
+            this.logdAndToast("Action Unlock")
         }
         return START_STICKY
     }
@@ -63,7 +73,6 @@ class ScreenLockerService : Service() {
 
     private fun startService() {
         createNotificationChannelAndStartForeground()
-        ScreenLockerTileService.startTileService(this)
     }
 
     private fun createNotificationChannelAndStartForeground() {
@@ -95,6 +104,7 @@ class ScreenLockerService : Service() {
                 .setStyle(
                     NotificationCompat.BigTextStyle().bigText(getString(R.string.foreground_notification_content_text_big))
                 )
+                .addAction(getUnlockAction())
                 .addAction(getStopAction())
                 .build()
 
@@ -102,9 +112,20 @@ class ScreenLockerService : Service() {
         }
     }
 
+    private fun getUnlockAction(): NotificationCompat.Action {
+        val intent = Intent(this, ScreenLockerService::class.java)
+        intent.action = ScreenLockerAction.ActionUnlock.toString()
+        val pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        return NotificationCompat.Action(
+            R.drawable.ic_stop,
+            getString(R.string.foreground_notification_unlock_action),
+            pendingIntent
+        )
+    }
+
     private fun getStopAction(): NotificationCompat.Action {
         val intent = Intent(this, ScreenLockerService::class.java)
-        intent.action = ScreenLockerAction.ActionStop.toString() //ACTION_STOP
+        intent.action = ScreenLockerAction.ActionStop.toString()
         val pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Action(
             R.drawable.ic_stop,
@@ -122,27 +143,20 @@ class ScreenLockerService : Service() {
         this.logdAndToast("Service stopped")
     }
 
-
     companion object {
 
-        //        private const val ACTION_STOP = "ACTION_STOP"
-
-        fun startService(context: ContextWrapper, action: ScreenLockerAction = ScreenLockerAction.ActionStart) {
+        fun startService(context: Context, action: ScreenLockerAction = ScreenLockerAction.ActionStart) {
             val serviceIntent = Intent(context, ScreenLockerService::class.java)
             serviceIntent.action = action.toString()
             context.startForegroundService(serviceIntent)
         }
 
-        fun stopService(context: ContextWrapper) {
+        fun stopService(context: Context) {
             val serviceIntent = Intent(context, ScreenLockerService::class.java)
-
-            // This action will stop the service manually (So no conflict with autorestart feature)
-            serviceIntent.action = ScreenLockerAction.ActionStop.toString() //ACTION_STOP
-            context.startForegroundService(serviceIntent)
+            serviceIntent.action = ScreenLockerAction.ActionStop.toString()
+            context.startService(serviceIntent)
         }
     }
 }
 
-enum class ScreenLockerAction { ActionStart, ActionStop, ActionLock }
-
-//    override fun toString(): String = this::class.java.simpleName
+enum class ScreenLockerAction { ActionStart, ActionStop, ActionLock, ActionUnlock }
