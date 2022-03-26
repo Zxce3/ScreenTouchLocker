@@ -12,8 +12,6 @@ import androidx.core.app.NotificationCompat
 
 class ScreenLockerService : Service() {
 
-    private var manuallyStopped: Boolean = false
-
     override fun onCreate() {
         super.onCreate()
 
@@ -26,10 +24,10 @@ class ScreenLockerService : Service() {
 
         val action = intent.action
 
-        // Stop the service if we receive the Stop action.
-        // START_NOT_STICKY is important here, we don't want the service to be relaunched.
+        /** Stop the service if we receive the Stop action.
+         *  START_NOT_STICKY is important here, we don't want the service to be relaunched.
+         */
         if (action == ScreenLockerAction.ActionStop.name) {
-            manuallyStopped = true
             stopService()
             this.logdAndToast("Action stop")
             return START_NOT_STICKY
@@ -55,20 +53,10 @@ class ScreenLockerService : Service() {
         super.onDestroy()
 
         ScreenLockerTileService.stopTileService(this)
-        if (!manuallyStopped) {
-            forceRestartService()
-        }
     }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
-    }
-
-    private fun forceRestartService() {
-        //        val broadcastIntent = Intent()
-        //        broadcastIntent.action = LocationRestartForegroundService.RESTART_SERVICE_ACTION
-        //        broadcastIntent.setClass(this, LocationRestartForegroundService::class.java)
-        //        this.sendBroadcast(broadcastIntent)
     }
 
     private fun startService() {

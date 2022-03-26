@@ -1,23 +1,9 @@
 <resources>
     <string name="app_name">ScreenLocker App</string>
-    <string name="foreground_notification_content_title">Screen Locker activated</string>
-    <string name="foreground_notification_content_text">Tap to unlock the screen</string>
+    <string name="foreground_notification_content_title">Screen Locker</string>
+    <string name="foreground_notification_content_text">Tap to lock the screen</string>
     <string name="foreground_notification_content_text_big">While ScreenLocker is activated the device screen is locked and touches will not  have any effect.</string>
-    <string name="foreground_notification_stop_action">Stop service</string>
+    <string name="foreground_notification_stop_action">Turn off</string>
+    <string name="foreground_notification_lock_action">Lock screen</string>
     <string name="foreground_notification_unlock_action">Unlock screen</string>
-
-
-
-
-    <string name="add_note">Add Note</string>
-    <string name="notification_channel_general">QuickNote</string>
-    <string name="notification_text">Tap to add quick note.</string>
-    <string name="notification_exit">Exit</string>
-    <string name="permission_required_title">Permission Required</string>
-    <string name="permission_required_text">Please enabled \'Draw over other apps\' permission for QuickNote to work correctly.</string>
-    <string name="permission_required_open">Open Settings</string>
-    <string name="permission_error_title">Permission Error</string>
-    <string name="permission_error_text">Cannot open the settings screen for obtaining the required permission.</string>
-    <string name="common_ok">OK</string>
-    <string name="common_select_lang">Change language</string>
 </resources>
