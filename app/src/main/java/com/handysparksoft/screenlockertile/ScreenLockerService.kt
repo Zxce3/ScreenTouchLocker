@@ -12,6 +12,12 @@ import androidx.core.app.NotificationCompat
 
 class ScreenLockerService : Service() {
 
+    private val lockerWindow by lazy {
+        LockerWindow(context = this, onCloseWindow = {
+            startService(context = this, action = ScreenLockerAction.ActionUnlock)
+        })
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -38,12 +44,14 @@ class ScreenLockerService : Service() {
                 requestOverlayPermission()
             } else {
                 ScreenLockerTileService.startTileService(this)
+                lockerWindow.open()
                 this.logdAndToast("Action Lock")
             }
         }
 
         if (action == ScreenLockerAction.ActionUnlock.name) {
             ScreenLockerTileService.stopTileService(this)
+            lockerWindow.close()
             this.logdAndToast("Action Unlock")
         }
         return START_STICKY
@@ -92,6 +100,7 @@ class ScreenLockerService : Service() {
                 .setStyle(
                     NotificationCompat.BigTextStyle().bigText(getString(R.string.foreground_notification_content_text_big))
                 )
+                .addAction(getLockAction())
                 .addAction(getUnlockAction())
                 .addAction(getStopAction())
                 .build()
@@ -100,12 +109,23 @@ class ScreenLockerService : Service() {
         }
     }
 
+    private fun getLockAction(): NotificationCompat.Action {
+        val intent = Intent(this, ScreenLockerService::class.java)
+        intent.action = ScreenLockerAction.ActionLock.toString()
+        val pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        return NotificationCompat.Action(
+            R.drawable.ic_screen_lock_portrait,
+            getString(R.string.foreground_notification_lock_action),
+            pendingIntent
+        )
+    }
+
     private fun getUnlockAction(): NotificationCompat.Action {
         val intent = Intent(this, ScreenLockerService::class.java)
         intent.action = ScreenLockerAction.ActionUnlock.toString()
         val pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Action(
-            R.drawable.ic_stop,
+            R.drawable.ic_screen_portrait,
             getString(R.string.foreground_notification_unlock_action),
             pendingIntent
         )

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lockScreenContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="4dp"
+    android:background="#55000000">
+
+    <ImageView
+        android:id="@+id/unlockButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:tint="@android:color/holo_red_dark"
+        android:contentDescription="@string/foreground_notification_unlock_action"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_screen_locker_tile" />
+</RelativeLayout>
