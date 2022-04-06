@@ -6,4 +6,6 @@
     <string name="foreground_notification_stop_action">Turn off</string>
     <string name="foreground_notification_lock_action">Lock screen</string>
     <string name="foreground_notification_unlock_action">Unlock screen</string>
+
+    <string name="screen_locked_content_touch_locked">Locked touch</string>
 </resources>

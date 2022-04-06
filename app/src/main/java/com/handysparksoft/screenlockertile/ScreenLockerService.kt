@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.handysparksoft.screenlockertile.classic.LockerWindow
 
 class ScreenLockerService : Service() {
 
