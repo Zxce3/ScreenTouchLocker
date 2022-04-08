@@ -9,6 +9,6 @@ class BootReceiver : BroadcastReceiver() {
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent?) {
-        ScreenLockerService.startService(context)
+        ScreenLockerService.startTheService(context)
     }
 }

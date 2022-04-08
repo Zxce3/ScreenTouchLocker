@@ -5,15 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/unlockButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:tint="@android:color/holo_red_dark"
-        android:contentDescription="@string/foreground_notification_unlock_action"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_screen_locker_tile" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:id="@+id/unlockButton"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:tint="@android:color/holo_red_dark"
+            android:contentDescription="@string/foreground_notification_unlock_action"
+            android:layout_centerInParent="true"
+            android:paddingStart="12dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="8dp"
+            android:src="@drawable/avd_unlock_button" />
+
+        <ImageView
+            android:id="@+id/unlockButtonProgress"
+            android:layout_width="122dp"
+            android:layout_height="122dp"
+            android:visibility="invisible"
+            android:tint="@android:color/holo_red_dark"
+            android:contentDescription="@string/foreground_notification_unlock_action"
+            android:padding="4dp"
+            android:src="@drawable/avd_unlock_button_progress"
+            android:layout_centerInParent="true"
+            tools:visibility="visible" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/touchLockedImage"
@@ -21,7 +44,7 @@
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_touch_locked"
+        android:src="@drawable/avd_touch_locked"
         android:contentDescription="@string/screen_locked_content_touch_locked"
         tools:visibility="visible" />
 </RelativeLayout>

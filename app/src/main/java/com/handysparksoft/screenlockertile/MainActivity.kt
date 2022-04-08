@@ -66,7 +66,7 @@ fun MainScreen(canDrawOverlays: Boolean) {
         Button(
             modifier = Modifier.align(CenterHorizontally),
             onClick = {
-                ScreenLockerService.startService(context = context, action = ScreenLockerAction.ActionLock)
+                ScreenLockerService.startTheService(context = context, action = ScreenLockerAction.ActionLock)
                 if (context.drawOverOtherAppsEnabled()) {
                     (context as ComponentActivity).finish()
                 }

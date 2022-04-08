@@ -13,11 +13,10 @@ import com.handysparksoft.screenlockertile.classic.LockerWindow
 
 class ScreenLockerService : Service() {
 
-    private val lockerWindow by lazy {
-        LockerWindow(context = this, onCloseWindow = {
-            startService(context = this, action = ScreenLockerAction.ActionUnlock)
+    private var lockerWindow: LockerWindow? = null
+        get() = LockerWindow(context = this, onCloseWindow = {
+            startTheService(context = this, action = ScreenLockerAction.ActionUnlock)
         })
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -45,16 +44,19 @@ class ScreenLockerService : Service() {
                 requestOverlayPermission()
             } else {
                 ScreenLockerTileService.startTileService(this)
-                lockerWindow.open()
+                lockerWindow?.open()
                 this.logdAndToast("Action Lock")
             }
         }
 
         if (action == ScreenLockerAction.ActionUnlock.name) {
             ScreenLockerTileService.stopTileService(this)
-            lockerWindow.close()
+            lockerWindow?.close()
+            lockerWindow = null
             this.logdAndToast("Action Unlock")
         }
+
+        startService(Intent(this, ShakeDetectorService::class.java))
         return START_STICKY
     }
 
@@ -94,7 +96,7 @@ class ScreenLockerService : Service() {
                 .setOngoing(true)
                 .setContentTitle(getString(R.string.foreground_notification_content_title))
                 .setContentText(getString(R.string.foreground_notification_content_text))
-                .setSmallIcon(R.drawable.ic_screen_locker_tile)
+                .setSmallIcon(R.drawable.ic_screen_locker_icon)
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setContentIntent(pendingIntent)
@@ -154,13 +156,13 @@ class ScreenLockerService : Service() {
 
     companion object {
 
-        fun startService(context: Context, action: ScreenLockerAction = ScreenLockerAction.ActionStart) {
+        fun startTheService(context: Context, action: ScreenLockerAction = ScreenLockerAction.ActionStart) {
             val serviceIntent = Intent(context, ScreenLockerService::class.java)
             serviceIntent.action = action.toString()
             context.startForegroundService(serviceIntent)
         }
 
-        fun stopService(context: Context) {
+        fun stopTheService(context: Context) {
             val serviceIntent = Intent(context, ScreenLockerService::class.java)
             serviceIntent.action = ScreenLockerAction.ActionStop.toString()
             context.startService(serviceIntent)

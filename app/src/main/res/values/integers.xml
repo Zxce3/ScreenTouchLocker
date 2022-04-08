@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="motion_time_xxs">70</integer>
+    <integer name="motion_time_xs">110</integer>
+    <integer name="motion_time_s">150</integer>
+    <integer name="motion_time_m">240</integer>
+    <integer name="motion_time_l">400</integer>
+    <integer name="motion_time_xl">700</integer>
+    <integer name="motion_time_xxl">1000</integer>
+    <integer name="motion_time_xxxl">2000</integer>
+</resources>

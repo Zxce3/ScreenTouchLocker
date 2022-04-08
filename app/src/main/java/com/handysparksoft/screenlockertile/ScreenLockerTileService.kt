@@ -28,12 +28,12 @@ class ScreenLockerTileService : TileService() {
         val activeState = qsTile.state == Tile.STATE_ACTIVE
         if (activeState) {
             // Turn off
-            ScreenLockerService.startService(context = this, action = ScreenLockerAction.ActionUnlock)
+            ScreenLockerService.startTheService(context = this, action = ScreenLockerAction.ActionUnlock)
         } else {
             // Turn on
             if (drawOverOtherAppsEnabled()) {
                 updateTileState(true)
-                ScreenLockerService.startService(context = this, action = ScreenLockerAction.ActionLock)
+                ScreenLockerService.startTheService(context = this, action = ScreenLockerAction.ActionLock)
             } else {
                 startActivityAndCollapse(getOverlayPermissionIntent())
                 updateTileState(false)

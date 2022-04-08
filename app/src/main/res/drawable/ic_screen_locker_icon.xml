@@ -4,6 +4,7 @@
     android:tint="#000000"
     android:viewportHeight="24"
     android:viewportWidth="24">
+
     <group android:translateY="-5">
         <path
             android:fillColor="@android:color/white"

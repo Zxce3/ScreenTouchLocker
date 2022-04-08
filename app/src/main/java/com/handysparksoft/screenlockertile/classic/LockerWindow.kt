@@ -8,11 +8,12 @@ import android.view.View
 import android.view.WindowManager
 import com.handysparksoft.screenlockertile.R
 
-class LockerWindow(context: Context, private val onCloseWindow: () -> Unit) {
+class LockerWindow(val context: Context, private val onCloseWindow: () -> Unit) {
 
     private val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val rootView = layoutInflater.inflate(R.layout.locker_window_layout, null)
+    private val contentView by lazy { rootView.findViewById<LockerWindowContent>(R.id.lockerWindowContent) }
 
     private val windowFlags = WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
@@ -36,15 +37,18 @@ class LockerWindow(context: Context, private val onCloseWindow: () -> Unit) {
     }
 
     private fun initWindow() {
-        rootView.findViewById<View>(R.id.unlockButton).setOnLongClickListener {
+        val background = rootView.findViewById<View>(R.id.lockerWindowBackground)
+
+        background.animate().setDuration(5000).alpha(0f).start()
+        contentView.onCloseListener = {
             close()
-            true
         }
     }
 
     fun open() {
         try {
             windowManager.addView(rootView, windowParams)
+            rootView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         } catch (e: Exception) {
             e.printStackTrace()
         }

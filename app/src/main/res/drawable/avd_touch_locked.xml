@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:drawable="@drawable/ic_touch_locked">
+
+    <target android:name="outerCircle">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="rotation"
+                android:duration="@integer/motion_time_m"
+                android:valueFrom="0"
+                android:valueTo="20"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+
+    <target android:name="innerCircle">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="rotation"
+                android:duration="@integer/motion_time_m"
+                android:valueFrom="0"
+                android:valueTo="-20"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+</animated-vector>
+
