@@ -36,6 +36,10 @@ class LockerWindowContent @JvmOverloads constructor(
         bindUI()
     }
 
+    fun resetState() {
+        resetProgressAnimation()
+    }
+
     private fun bindUI() {
         setUnlockButton()
         setUnlockProgressFeedback()
@@ -44,16 +48,22 @@ class LockerWindowContent @JvmOverloads constructor(
 
     private fun setUnlockButton() {
         val unlockButton = rootView.findViewById<ImageView>(R.id.unlockButton)
-        (unlockButton.drawable as? AnimatedVectorDrawable)?.start()
-        fadeOutUnlockButton(unlockButton)
+        animateUnlockButton()
         unlockButton.setOnClickListener {
             unlockButton.alpha = 1f
             fadeOutUnlockButton(unlockButton)
         }
     }
 
+    fun animateUnlockButton() {
+        val unlockButton = rootView.findViewById<ImageView>(R.id.unlockButton)
+        (unlockButton.drawable as? AnimatedVectorDrawable)?.start()
+        fadeOutUnlockButton(unlockButton)
+    }
+
     private fun fadeOutUnlockButton(unlockButton: ImageView) {
-        unlockButton.animate().alpha(0.2f).setStartDelay(UNLOCK_BUTTON_FADE_DELAY).setDuration(UNLOCK_BUTTON_FADE_DURATION)
+        unlockButton.alpha = 1f
+        unlockButton.animate().alpha(UNLOCK_BUTTON_ALPHA_VALUE).setStartDelay(UNLOCK_BUTTON_FADE_DELAY).setDuration(UNLOCK_BUTTON_FADE_DURATION)
             .start()
     }
 
@@ -66,7 +76,6 @@ class LockerWindowContent @JvmOverloads constructor(
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     unlockButtonProgress.visibility = VISIBLE
-                    (unlockButton.drawable as? AnimatedVectorDrawable)?.stop()
                     (unlockButtonProgress.drawable as? AnimatedVectorDrawable)?.start()
                     startCloseTimerTask()
                 }
@@ -105,8 +114,7 @@ class LockerWindowContent @JvmOverloads constructor(
 
     private fun resetProgressAnimation() {
         val unlockButtonProgress = rootView.findViewById<ImageView>(R.id.unlockButtonProgress)
-        unlockButtonProgress.visibility = INVISIBLE
-        (unlockButtonProgress.drawable as? AnimatedVectorDrawable)?.stop()
+        (unlockButtonProgress.drawable as? AnimatedVectorDrawable)?.reset()
     }
 
     private fun startCloseTimerTask() {
@@ -148,8 +156,9 @@ class LockerWindowContent @JvmOverloads constructor(
 
         private const val UNLOCK_PROGRESS_TIMER_DURATION = 2750L
 
-        private const val UNLOCK_BUTTON_FADE_DELAY = 2000L
+        private const val UNLOCK_BUTTON_FADE_DELAY = 6000L
         private const val UNLOCK_BUTTON_FADE_DURATION = 2000L
+        private const val UNLOCK_BUTTON_ALPHA_VALUE = 0.3f
         private const val LOCKED_TOUCH_SCALE_IN_DURATION = 300L
         private const val LOCKED_TOUCH_SCALE_OUT_DURATION = 50L
     }

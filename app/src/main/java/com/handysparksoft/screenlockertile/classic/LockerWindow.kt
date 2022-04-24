@@ -51,13 +51,18 @@ class LockerWindow(val context: Context, private val onCloseWindow: () -> Unit) 
             rootView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         } catch (e: Exception) {
             e.printStackTrace()
+        } finally {
+            rootView.findViewById<LockerWindowContent>(R.id.lockerWindowContent).apply {
+                resetState()
+                animateUnlockButton()
+            }
         }
     }
 
     fun close() {
         try {
             windowManager.removeView(rootView)
-            onCloseWindow.invoke()
+            onCloseWindow()
         } catch (e: Exception) {
             e.printStackTrace()
         }

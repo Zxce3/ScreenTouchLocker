@@ -9,7 +9,12 @@ import android.service.quicksettings.TileService
 class ScreenLockerTileService : TileService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        checkIntent(intent)
+        intent?.action?.let { action ->
+            when (action) {
+                TileAction.ActionTileStart.name -> updateTileState(true)
+                TileAction.ActionTileStop.name -> updateTileState(false)
+            }
+        }
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -18,16 +23,12 @@ class ScreenLockerTileService : TileService() {
         updateTileState(false)
     }
 
-    override fun onStartListening() {
-        super.onStartListening()
-        val a = "dd"
-    }
-
     override fun onClick() {
         super.onClick()
         val activeState = qsTile.state == Tile.STATE_ACTIVE
         if (activeState) {
             // Turn off
+            updateTileState(false)
             ScreenLockerService.startTheService(context = this, action = ScreenLockerAction.ActionUnlock)
         } else {
             // Turn on
@@ -35,18 +36,9 @@ class ScreenLockerTileService : TileService() {
                 updateTileState(true)
                 ScreenLockerService.startTheService(context = this, action = ScreenLockerAction.ActionLock)
             } else {
-                startActivityAndCollapse(getOverlayPermissionIntent())
                 updateTileState(false)
+                startActivityAndCollapse(getOverlayPermissionIntent())
                 //showDialog(PermissionRequiredDialog)
-            }
-        }
-    }
-
-    private fun checkIntent(intent: Intent?) {
-        intent?.action?.let { action ->
-            when (action) {
-                TileAction.ActionTileStart.name -> updateTileState(true)
-                TileAction.ActionTileStop.name -> updateTileState(false)
             }
         }
     }

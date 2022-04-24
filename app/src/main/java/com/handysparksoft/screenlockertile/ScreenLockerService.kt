@@ -13,10 +13,11 @@ import com.handysparksoft.screenlockertile.classic.LockerWindow
 
 class ScreenLockerService : Service() {
 
-    private var lockerWindow: LockerWindow? = null
-        get() = LockerWindow(context = this, onCloseWindow = {
+    private val lockerWindow by lazy {
+        LockerWindow(context = this, onCloseWindow = {
             startTheService(context = this, action = ScreenLockerAction.ActionUnlock)
         })
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -35,6 +36,7 @@ class ScreenLockerService : Service() {
          */
         if (action == ScreenLockerAction.ActionStop.name) {
             stopService()
+            lockerWindow.close()
             this.logdAndToast("Action stop")
             return START_NOT_STICKY
         }
@@ -44,19 +46,17 @@ class ScreenLockerService : Service() {
                 requestOverlayPermission()
             } else {
                 ScreenLockerTileService.startTileService(this)
-                lockerWindow?.open()
+                lockerWindow.open()
                 this.logdAndToast("Action Lock")
             }
         }
 
         if (action == ScreenLockerAction.ActionUnlock.name) {
             ScreenLockerTileService.stopTileService(this)
-            lockerWindow?.close()
-            lockerWindow = null
+            lockerWindow.close()
             this.logdAndToast("Action Unlock")
         }
 
-        startService(Intent(this, ShakeDetectorService::class.java))
         return START_STICKY
     }
 
@@ -64,6 +64,7 @@ class ScreenLockerService : Service() {
         super.onDestroy()
 
         ScreenLockerTileService.stopTileService(this)
+        ShakeDetectorService.stopShakeDetectorService(this)
     }
 
     override fun onBind(intent: Intent?): IBinder? {

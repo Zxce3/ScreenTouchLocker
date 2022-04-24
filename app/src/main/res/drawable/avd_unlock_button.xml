@@ -11,7 +11,7 @@
                     android:duration="@integer/motion_time_xl"
                     android:valueFrom="1"
                     android:valueTo="0.8"
-                    android:repeatCount="4"
+                    android:repeatCount="6"
                     android:repeatMode="reverse"
                     android:interpolator="@android:interpolator/fast_out_slow_in"
                     android:valueType="floatType" />
@@ -20,7 +20,7 @@
                     android:duration="@integer/motion_time_xl"
                     android:valueFrom="1"
                     android:valueTo="0.8"
-                    android:repeatCount="4"
+                    android:repeatCount="6"
                     android:repeatMode="reverse"
                     android:interpolator="@android:interpolator/fast_out_slow_in"
                     android:valueType="floatType" />

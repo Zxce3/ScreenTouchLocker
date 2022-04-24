@@ -68,6 +68,7 @@ fun MainScreen(canDrawOverlays: Boolean) {
             onClick = {
                 ScreenLockerService.startTheService(context = context, action = ScreenLockerAction.ActionLock)
                 if (context.drawOverOtherAppsEnabled()) {
+                    ShakeDetectorService.startTheService(context = context)
                     (context as ComponentActivity).finish()
                 }
                 (context as ContextWrapper).logdAndToast("Clicked!")
