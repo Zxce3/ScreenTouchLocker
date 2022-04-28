@@ -54,7 +54,7 @@ fun MainScreen(canDrawOverlays: Boolean) {
     ) {
 
         Text(
-            text = "Screen Locker App",
+            text = "Screen Touch Locker",
             style = MaterialTheme.typography.h4,
             fontWeight = Bold,
             modifier = Modifier.align(CenterHorizontally)
