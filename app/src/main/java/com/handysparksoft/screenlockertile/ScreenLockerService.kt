@@ -14,9 +14,12 @@ import com.handysparksoft.screenlockertile.classic.LockerWindow
 class ScreenLockerService : Service() {
 
     private val lockerWindow by lazy {
-        LockerWindow(context = this, onCloseWindow = {
-            startTheService(context = this, action = ScreenLockerAction.ActionUnlock)
-        })
+        LockerWindow(
+            context = this,
+            onCloseWindow = {
+                startTheService(context = this, action = ScreenLockerAction.ActionUnlock)
+            }
+        )
     }
 
     override fun onCreate() {

@@ -38,7 +38,7 @@ class ScreenLockerTileService : TileService() {
             } else {
                 updateTileState(false)
                 startActivityAndCollapse(getOverlayPermissionIntent())
-                //showDialog(PermissionRequiredDialog)
+                // showDialog(PermissionRequiredDialog)
             }
         }
     }

@@ -21,10 +21,10 @@ class LockerWindow(val context: Context, private val onCloseWindow: () -> Unit) 
         WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
     private val windowParams = WindowManager.LayoutParams(
         WindowManager.LayoutParams.MATCH_PARENT,
-        WindowManager.LayoutParams.MATCH_PARENT,                // Display it on top of other application windows
-        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,    // Don't let it grab the input focus
-        windowFlags,                                            // Window Flags
-        PixelFormat.TRANSLUCENT                                 // Make the underlying application window visible
+        WindowManager.LayoutParams.MATCH_PARENT, // Display it on top of other application windows
+        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, // Don't let it grab the input focus
+        windowFlags, // Window Flags
+        PixelFormat.TRANSLUCENT // Make the underlying application window visible
     )
 
     init {

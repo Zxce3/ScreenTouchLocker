@@ -63,7 +63,10 @@ class LockerWindowContent @JvmOverloads constructor(
 
     private fun fadeOutUnlockButton(unlockButton: ImageView) {
         unlockButton.alpha = 1f
-        unlockButton.animate().alpha(UNLOCK_BUTTON_ALPHA_VALUE).setStartDelay(UNLOCK_BUTTON_FADE_DELAY).setDuration(UNLOCK_BUTTON_FADE_DURATION)
+        unlockButton.animate()
+            .alpha(UNLOCK_BUTTON_ALPHA_VALUE)
+            .setStartDelay(UNLOCK_BUTTON_FADE_DELAY)
+            .setDuration(UNLOCK_BUTTON_FADE_DURATION)
             .start()
     }
 
