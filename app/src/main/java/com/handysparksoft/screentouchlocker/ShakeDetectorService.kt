@@ -13,7 +13,10 @@ class ShakeDetectorService : Service() {
     private lateinit var shakeDetector: ShakeDetector
     private val onShakeListener = ShakeDetector.Listener {
         this@ShakeDetectorService.logdAndToast("*** Shake detected")
-        ScreenTouchLockerService.startTheService(context = this@ShakeDetectorService, action = ScreenTouchLockerAction.ActionLock)
+        ScreenTouchLockerService.startTheService(
+            context = this@ShakeDetectorService,
+            action = ScreenTouchLockerAction.ActionLock
+        )
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
