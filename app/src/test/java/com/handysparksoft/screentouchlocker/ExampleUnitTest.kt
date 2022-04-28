@@ -1,4 +1,4 @@
-package com.handysparksoft.screenlockertile
+package com.handysparksoft.screentouchlocker
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

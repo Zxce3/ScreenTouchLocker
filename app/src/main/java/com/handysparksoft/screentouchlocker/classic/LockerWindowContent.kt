@@ -1,4 +1,4 @@
-package com.handysparksoft.screenlockertile.classic
+package com.handysparksoft.screentouchlocker.classic
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,8 +11,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.handysparksoft.screenlockertile.R
-import com.handysparksoft.screenlockertile.logdAndToast
+import com.handysparksoft.screentouchlocker.R
+import com.handysparksoft.screentouchlocker.logdAndToast
 import java.util.Timer
 import java.util.TimerTask
 

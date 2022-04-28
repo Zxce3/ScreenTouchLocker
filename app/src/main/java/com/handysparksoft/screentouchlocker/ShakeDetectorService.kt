@@ -1,4 +1,4 @@
-package com.handysparksoft.screenlockertile
+package com.handysparksoft.screentouchlocker
 
 import android.app.Service
 import android.content.Context
@@ -13,7 +13,7 @@ class ShakeDetectorService : Service() {
     private lateinit var shakeDetector: ShakeDetector
     private val onShakeListener = ShakeDetector.Listener {
         this@ShakeDetectorService.logdAndToast("*** Shake detected")
-        ScreenLockerService.startTheService(context = this@ShakeDetectorService, action = ScreenLockerAction.ActionLock)
+        ScreenTouchLockerService.startTheService(context = this@ShakeDetectorService, action = ScreenTouchLockerAction.ActionLock)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {

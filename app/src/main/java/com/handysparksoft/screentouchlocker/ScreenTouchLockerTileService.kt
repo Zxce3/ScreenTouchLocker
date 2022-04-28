@@ -1,4 +1,4 @@
-package com.handysparksoft.screenlockertile
+package com.handysparksoft.screentouchlocker
 
 import android.content.ComponentName
 import android.content.ContextWrapper
@@ -6,7 +6,7 @@ import android.content.Intent
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 
-class ScreenLockerTileService : TileService() {
+class ScreenTouchLockerTileService : TileService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.action?.let { action ->
@@ -29,12 +29,12 @@ class ScreenLockerTileService : TileService() {
         if (activeState) {
             // Turn off
             updateTileState(false)
-            ScreenLockerService.startTheService(context = this, action = ScreenLockerAction.ActionUnlock)
+            ScreenTouchLockerService.startTheService(context = this, action = ScreenTouchLockerAction.ActionUnlock)
         } else {
             // Turn on
             if (drawOverOtherAppsEnabled()) {
                 updateTileState(true)
-                ScreenLockerService.startTheService(context = this, action = ScreenLockerAction.ActionLock)
+                ScreenTouchLockerService.startTheService(context = this, action = ScreenTouchLockerAction.ActionLock)
             } else {
                 updateTileState(false)
                 startActivityAndCollapse(getOverlayPermissionIntent())
@@ -48,14 +48,14 @@ class ScreenLockerTileService : TileService() {
             qsTile?.state = if (activeState) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
             qsTile?.updateTile()
         } else {
-            requestListeningState(this, ComponentName(this, ScreenLockerTileService::class.java))
+            requestListeningState(this, ComponentName(this, ScreenTouchLockerTileService::class.java))
         }
     }
 
     companion object {
 
         fun startTileService(context: ContextWrapper) {
-            Intent(context, ScreenLockerTileService::class.java).also {
+            Intent(context, ScreenTouchLockerTileService::class.java).also {
                 it.action = TileAction.ActionTileStart.name
                 context.startService(it)
                 context.logdAndToast("Tile started")
@@ -63,7 +63,7 @@ class ScreenLockerTileService : TileService() {
         }
 
         fun stopTileService(context: ContextWrapper) {
-            Intent(context, ScreenLockerTileService::class.java).also {
+            Intent(context, ScreenTouchLockerTileService::class.java).also {
                 it.action = TileAction.ActionTileStop.name
                 context.startService(it)
                 context.logdAndToast("Tile stopped")

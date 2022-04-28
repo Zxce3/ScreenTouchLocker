@@ -1,4 +1,4 @@
-package com.handysparksoft.screenlockertile.classic
+package com.handysparksoft.screentouchlocker.classic
 
 import android.content.Context
 import android.graphics.PixelFormat
@@ -6,7 +6,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
-import com.handysparksoft.screenlockertile.R
+import com.handysparksoft.screentouchlocker.R
 
 class LockerWindow(val context: Context, private val onCloseWindow: () -> Unit) {
 

@@ -1,4 +1,4 @@
-package com.handysparksoft.screenlockertile.ui.theme
+package com.handysparksoft.screentouchlocker.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

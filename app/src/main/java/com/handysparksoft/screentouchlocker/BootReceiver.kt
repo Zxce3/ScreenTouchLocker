@@ -1,4 +1,4 @@
-package com.handysparksoft.screenlockertile
+package com.handysparksoft.screentouchlocker
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -9,6 +9,6 @@ class BootReceiver : BroadcastReceiver() {
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent?) {
-        ScreenLockerService.startTheService(context)
+        ScreenTouchLockerService.startTheService(context)
     }
 }

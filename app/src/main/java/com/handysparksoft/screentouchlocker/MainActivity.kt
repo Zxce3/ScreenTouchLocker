@@ -1,4 +1,4 @@
-package com.handysparksoft.screenlockertile
+package com.handysparksoft.screentouchlocker
 
 import android.content.ContextWrapper
 import android.os.Bundle
@@ -24,7 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.handysparksoft.screenlockertile.ui.theme.ScreenLockerTileTheme
+import com.handysparksoft.screentouchlocker.ui.theme.ScreenTouchLockerTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val canDrawOverlays by remember { mutableStateOf(drawOverOtherAppsEnabled()) }
-            ScreenLockerTileTheme {
+            ScreenTouchLockerTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = Color.Transparent) {
                     MainScreen(canDrawOverlays = canDrawOverlays)
@@ -61,12 +61,12 @@ fun MainScreen(canDrawOverlays: Boolean) {
         )
         Spacer(modifier = Modifier.weight(1f))
         if (!canDrawOverlays) {
-            Text(text = "You might need to grant permissions for ScreenLocker app to work correctly.")
+            Text(text = "You might need to grant permissions for ScreenTouchLocker app to work correctly.")
         }
         Button(
             modifier = Modifier.align(CenterHorizontally),
             onClick = {
-                ScreenLockerService.startTheService(context = context, action = ScreenLockerAction.ActionLock)
+                ScreenTouchLockerService.startTheService(context = context, action = ScreenTouchLockerAction.ActionLock)
                 if (context.drawOverOtherAppsEnabled()) {
                     ShakeDetectorService.startTheService(context = context)
                     (context as ComponentActivity).finish()
@@ -82,7 +82,7 @@ fun MainScreen(canDrawOverlays: Boolean) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    ScreenLockerTileTheme {
+    ScreenTouchLockerTheme {
         MainScreen(false)
     }
 }
