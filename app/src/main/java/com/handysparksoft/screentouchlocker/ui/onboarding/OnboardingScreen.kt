@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -32,10 +33,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import com.handysparksoft.screentouchlocker.R
 import com.handysparksoft.screentouchlocker.ScreenTouchLockerAction
@@ -108,12 +111,15 @@ private fun OnboardingContentPager(pagerState: PagerState) {
         count = OnboardingImages.size,
         state = pagerState
     ) { page ->
+        val animatedModifier = getAnimatedGraphicsLayer(calculateCurrentOffsetForPage(page))
+
         PagerSimpleItem(
             page = page,
             modifier = Modifier
                 .fillMaxWidth(0.75f)
                 .padding(top = 100.dp)
                 .defaultMinSize(minHeight = 220.dp)
+                .then(animatedModifier)
         )
     }
 }
@@ -200,6 +206,28 @@ private val OnboardingSubtitles = listOf(
 )
 
 private const val CrossFadeDuration = 1000
+
+private fun getAnimatedGraphicsLayer(offsetForPage: Float) = Modifier.graphicsLayer {
+    // We use the absolute value which allows us to mirror
+    // any effects for both directions
+
+    // We animate the scaleX + scaleY, between 85% and 100%
+    lerp(
+        start = 0.5.dp,
+        stop = 1.dp,
+        fraction = 1f - offsetForPage.coerceIn(0f, 1f)
+    ).also { scale ->
+        scaleX = scale.value
+        scaleY = scale.value
+    }
+
+    // We animate the alpha, between 50% and 100%
+    alpha = lerp(
+        start = 0.dp,
+        stop = 1.dp,
+        fraction = 1f - offsetForPage.coerceIn(0f, 1f)
+    ).value
+}
 
 @Preview
 @Composable

@@ -16,6 +16,6 @@
     <string name="foreground_notification_unlock_action">Desbloquear pantalla</string>
 
     <string name="screen_locked_content_touch_locked">Toque bloqueado</string>
-    <string name="required_overlay_permissions">Puede que necesites dar permisos a la app de ScreenTouchLocker app para que funcione correctamente.</string>
+    <string name="required_overlay_permissions">Puede que necesites dar permisos a la app de ScreenTouchLocker para que funcione correctamente.</string>
     <string name="lock_the_screen">Bloquear la pantalla</string>
 </resources>
