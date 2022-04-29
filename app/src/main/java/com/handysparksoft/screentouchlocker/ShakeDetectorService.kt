@@ -12,7 +12,7 @@ class ShakeDetectorService : Service() {
 
     private lateinit var shakeDetector: ShakeDetector
     private val onShakeListener = ShakeDetector.Listener {
-        this@ShakeDetectorService.logdAndToast("*** Shake detected")
+        this@ShakeDetectorService.logdAndToast("Shake detected")
         ScreenTouchLockerService.startTheService(
             context = this@ShakeDetectorService,
             action = ScreenTouchLockerAction.ActionLock
@@ -43,7 +43,7 @@ class ShakeDetectorService : Service() {
     }
 
     override fun onDestroy() {
-        logdAndToast("*** Shake Detector stopped")
+        logdAndToast("Shake Detector stopped")
         if (::shakeDetector.isInitialized) {
             shakeDetector.stop()
         }

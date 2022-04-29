@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ScreenTouchLocker</string>
+    <string name="tile_name">Screen Locker</string>
 
     <string name="onboarding_title_1">Screen Touch Locker</string>
     <string name="onboarding_subtitle_1">Lock your screen easily and enjoy your device\'s display without interruption by preventing unintended touches.</string>
@@ -10,10 +11,10 @@
 
     <string name="foreground_notification_content_title">Screen Touch Locker</string>
     <string name="foreground_notification_content_text">Tap to lock the screen</string>
-    <string name="foreground_notification_content_text_big">While ScreenTouchLocker is activated the device screen is locked and touches will not  have any effect.</string>
+    <string name="foreground_notification_content_text_big">While ScreenTouchLocker is activated the device screen is locked and unintended touches will be prevented.</string>
     <string name="foreground_notification_stop_action">Turn off</string>
-    <string name="foreground_notification_lock_action">Lock screen</string>
-    <string name="foreground_notification_unlock_action">Unlock screen</string>
+    <string name="foreground_notification_lock_action">Lock</string>
+    <string name="foreground_notification_unlock_action">Unlock</string>
 
     <string name="screen_locked_content_touch_locked">Locked touch</string>
     <string name="required_overlay_permissions">You might need to grant permissions for ScreenTouchLocker app to work correctly.</string>

@@ -38,8 +38,8 @@ class ScreenTouchLockerService : Service() {
          *  START_NOT_STICKY is important here, we don't want the service to be relaunched.
          */
         if (action == ScreenTouchLockerAction.ActionStop.name) {
-            stopService()
             lockerWindow.close()
+            stopService()
             this.logdAndToast("Action stop")
             return START_NOT_STICKY
         }

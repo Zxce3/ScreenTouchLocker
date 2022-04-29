@@ -35,10 +35,10 @@ class ScreenTouchLockerTileService : TileService() {
             if (drawOverOtherAppsEnabled()) {
                 updateTileState(true)
                 ScreenTouchLockerService.startTheService(context = this, action = ScreenTouchLockerAction.ActionLock)
+                ShakeDetectorService.startTheService(context = this)
             } else {
                 updateTileState(false)
                 startActivityAndCollapse(getOverlayPermissionIntent())
-                // showDialog(PermissionRequiredDialog)
             }
         }
     }

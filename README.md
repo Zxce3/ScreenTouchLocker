@@ -2,7 +2,7 @@
 
 ## Introduction
 <br/>
-<img src="./app_tour.gif" width="300" title="Screen Touch Locker - Tour" />
+<img src="./screen_touch_locker_tour.gif" width="300" title="Screen Touch Locker - Tour" />
 <br/>
 <br/>
 

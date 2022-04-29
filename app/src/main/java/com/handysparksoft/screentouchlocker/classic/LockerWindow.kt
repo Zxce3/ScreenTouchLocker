@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import com.handysparksoft.screentouchlocker.R
+import com.handysparksoft.screentouchlocker.vibrate
 
 class LockerWindow(val context: Context, private val onCloseWindow: () -> Unit) {
 
@@ -49,6 +50,7 @@ class LockerWindow(val context: Context, private val onCloseWindow: () -> Unit) 
         try {
             windowManager.addView(rootView, windowParams)
             rootView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            context.vibrate()
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
