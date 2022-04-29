@@ -22,6 +22,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        if (intent.action == ScreenTouchLockerAction.ActionUnlock.toString()) {
+            ScreenTouchLockerService.startTheService(context = this, action = ScreenTouchLockerAction.ActionUnlock)
+        }
+
         setContent {
             val canDrawOverlays by remember { mutableStateOf(drawOverOtherAppsEnabled()) }
             ScreenTouchLockerTheme {

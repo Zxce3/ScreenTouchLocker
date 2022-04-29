@@ -94,7 +94,9 @@ class ScreenTouchLockerService : Service() {
             it.createNotificationChannel(notificationChannel)
 
             val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
-            val notificationIntent = Intent(this, MainActivity::class.java)
+            val notificationIntent = Intent(this, MainActivity::class.java).apply {
+                action = ScreenTouchLockerAction.ActionUnlock.toString()
+            }
             val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             val notification = notificationBuilder
                 .setOngoing(true)
