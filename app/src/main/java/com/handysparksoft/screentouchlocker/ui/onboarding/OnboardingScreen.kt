@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.handysparksoft.screentouchlocker.R
@@ -56,7 +57,14 @@ fun OnboardingScreen(canDrawOverlays: Boolean) {
 
         GradientWhiteBox()
 
-        OnboardingContentPager(pagerState)
+        Column {
+            OnboardingContentPager(pagerState)
+
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        }
 
         Box(Modifier.align(Alignment.BottomCenter)) {
             LockActionContent(canDrawOverlays, context)
