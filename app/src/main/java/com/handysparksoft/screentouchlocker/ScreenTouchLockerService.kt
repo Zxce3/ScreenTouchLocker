@@ -7,11 +7,16 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import androidx.core.app.NotificationCompat
 import com.handysparksoft.screentouchlocker.classic.LockerWindow
+import com.handysparksoft.screentouchlocker.platform.Prefs
 
 class ScreenTouchLockerService : Service() {
+
+    private val prefs by lazy { Prefs(this) }
 
     private val lockerWindow by lazy {
         LockerWindow(
@@ -21,6 +26,8 @@ class ScreenTouchLockerService : Service() {
             }
         )
     }
+
+    var screenShakenAndLocked = false
 
     override fun onCreate() {
         super.onCreate()
@@ -44,19 +51,25 @@ class ScreenTouchLockerService : Service() {
             return START_NOT_STICKY
         }
 
-        if (action == ScreenTouchLockerAction.ActionLock.name) {
+        val isActionShake = action == ScreenTouchLockerAction.ActionShake.name
+        val shakeAndLock = isActionShake && prefs.enableShakeAndLock && !screenShakenAndLocked
+        val shakeAndUnlock = isActionShake && prefs.enableShakeAndUnlock && screenShakenAndLocked
+
+        if (action == ScreenTouchLockerAction.ActionLock.name || shakeAndLock) {
             if (!drawOverOtherAppsEnabled()) {
                 requestOverlayPermission()
             } else {
                 ScreenTouchLockerTileService.startTileService(this)
                 lockerWindow.open()
+                Handler(Looper.getMainLooper()).postDelayed({ screenShakenAndLocked = true }, SHAKE_DETECTION_DELAY)
                 this.logdAndToast("Action Lock")
             }
         }
 
-        if (action == ScreenTouchLockerAction.ActionUnlock.name) {
+        if (action == ScreenTouchLockerAction.ActionUnlock.name || shakeAndUnlock) {
             ScreenTouchLockerTileService.stopTileService(this)
             lockerWindow.close()
+            Handler(Looper.getMainLooper()).postDelayed({ screenShakenAndLocked = false }, SHAKE_DETECTION_DELAY)
             this.logdAndToast("Action Unlock")
         }
 
@@ -68,6 +81,7 @@ class ScreenTouchLockerService : Service() {
 
         ScreenTouchLockerTileService.stopTileService(this)
         ShakeDetectorService.stopShakeDetectorService(this)
+        screenShakenAndLocked = false
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -162,6 +176,8 @@ class ScreenTouchLockerService : Service() {
 
     companion object {
 
+        private const val SHAKE_DETECTION_DELAY = 1500L
+
         fun startTheService(context: Context, action: ScreenTouchLockerAction = ScreenTouchLockerAction.ActionStart) {
             val serviceIntent = Intent(context, ScreenTouchLockerService::class.java)
             serviceIntent.action = action.toString()
@@ -176,4 +192,4 @@ class ScreenTouchLockerService : Service() {
     }
 }
 
-enum class ScreenTouchLockerAction { ActionStart, ActionStop, ActionLock, ActionUnlock }
+enum class ScreenTouchLockerAction { ActionStart, ActionStop, ActionLock, ActionUnlock, ActionShake }

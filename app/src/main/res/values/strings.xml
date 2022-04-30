@@ -19,4 +19,8 @@
     <string name="screen_locked_content_touch_locked">Locked touch</string>
     <string name="required_overlay_permissions">You might need to grant permissions for ScreenTouchLocker app to work correctly.</string>
     <string name="lock_the_screen">Lock the Screen</string>
+    <string name="config_option_show_locked_touches">Show locked touches</string>
+    <string name="config_option_vibrate">Vibrate</string>
+    <string name="config_option_enable_shake_and_lock">Enable Shake &amp; Lock</string>
+    <string name="config_option_enable_shake_and_unlock">Enable Shake &amp; Unlock></string>
 </resources>
