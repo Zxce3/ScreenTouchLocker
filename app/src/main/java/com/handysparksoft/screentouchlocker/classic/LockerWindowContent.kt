@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.handysparksoft.screentouchlocker.R
 import com.handysparksoft.screentouchlocker.logdAndToast
+import com.handysparksoft.screentouchlocker.platform.Prefs
 import java.util.Timer
 import java.util.TimerTask
 
@@ -20,6 +21,8 @@ class LockerWindowContent @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
+
+    private val prefs by lazy { Prefs(context) }
 
     private inner class CloseTimerTask : TimerTask() {
 
@@ -131,10 +134,12 @@ class LockerWindowContent @JvmOverloads constructor(
     }
 
     private fun performHapticFeedback(screenContent: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            screenContent.performHapticFeedback(HapticFeedbackConstants.REJECT)
-        } else {
-            screenContent.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        if (prefs.vibrate) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                screenContent.performHapticFeedback(HapticFeedbackConstants.REJECT)
+            } else {
+                screenContent.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            }
         }
     }
 
@@ -144,9 +149,11 @@ class LockerWindowContent @JvmOverloads constructor(
     }
 
     private fun animateLockedTouch(touchLockedImage: ImageView, motionEvent: MotionEvent) {
-        touchLockedImage.visibility = View.VISIBLE
-        touchLockedImage.animate().scaleX(3f).scaleY(3f).setDuration(LOCKED_TOUCH_SCALE_IN_DURATION).start()
-        (touchLockedImage.drawable as? AnimatedVectorDrawable)?.start()
+        if (prefs.showLockedTouches) {
+            touchLockedImage.visibility = View.VISIBLE
+            touchLockedImage.animate().scaleX(3f).scaleY(3f).setDuration(LOCKED_TOUCH_SCALE_IN_DURATION).start()
+            (touchLockedImage.drawable as? AnimatedVectorDrawable)?.start()
+        }
     }
 
     private fun hideTouch(touchLockedImage: View) {

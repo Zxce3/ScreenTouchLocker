@@ -15,7 +15,7 @@ class ShakeDetectorService : Service() {
         this@ShakeDetectorService.logdAndToast("Shake detected")
         ScreenTouchLockerService.startTheService(
             context = this@ShakeDetectorService,
-            action = ScreenTouchLockerAction.ActionLock
+            action = ScreenTouchLockerAction.ActionShake
         )
     }
 
@@ -38,7 +38,7 @@ class ShakeDetectorService : Service() {
     private fun startShakeDetectorService() {
         val sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         shakeDetector = ShakeDetector(onShakeListener)
-        shakeDetector.setSensitivity(ShakeDetector.SENSITIVITY_HARD)
+        shakeDetector.setSensitivity(ShakeDetector.SENSITIVITY_HARD + 5)
         shakeDetector.start(sensorManager)
     }
 

@@ -67,6 +67,8 @@ fun OnboardingScreen(canDrawOverlays: Boolean) {
                 pagerState = pagerState,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
+
+            ConfigOptions(modifier = Modifier.padding(horizontal = 16.dp, vertical = 48.dp))
         }
 
         Box(Modifier.align(Alignment.BottomCenter)) {
