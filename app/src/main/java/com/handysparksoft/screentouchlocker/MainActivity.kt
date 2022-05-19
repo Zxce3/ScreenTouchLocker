@@ -1,5 +1,7 @@
 package com.handysparksoft.screentouchlocker
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,8 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.handysparksoft.screentouchlocker.platform.InAppReviewManager
 import com.handysparksoft.screentouchlocker.ui.onboarding.OnboardingScreen
 import com.handysparksoft.screentouchlocker.ui.theme.ScreenTouchLockerTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
 
@@ -26,6 +31,8 @@ class MainActivity : ComponentActivity() {
             ScreenTouchLockerService.startTheService(context = this, action = ScreenTouchLockerAction.ActionUnlock)
         }
 
+        startInAppReviewFlow(this)
+
         setContent {
             val canDrawOverlays by remember { mutableStateOf(drawOverOtherAppsEnabled()) }
             ScreenTouchLockerTheme {
@@ -34,6 +41,16 @@ class MainActivity : ComponentActivity() {
                     OnboardingScreen(canDrawOverlays = canDrawOverlays)
                 }
             }
+        }
+    }
+}
+
+private fun startInAppReviewFlow(context: Context) {
+    // InAppReview request
+    val askForAReview = Random.nextInt(3) == 1
+    if (askForAReview) {
+        (context as? Activity)?.let { activity ->
+            InAppReviewManager(ReviewManagerFactory.create(context)).requestReviewFlow(activity)
         }
     }
 }
