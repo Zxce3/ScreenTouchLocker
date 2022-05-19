@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,7 +49,6 @@ import com.handysparksoft.screentouchlocker.ShakeDetectorService
 import com.handysparksoft.screentouchlocker.drawOverOtherAppsEnabled
 import com.handysparksoft.screentouchlocker.logdAndToast
 import com.handysparksoft.screentouchlocker.ui.theme.ScreenTouchLockerTheme
-import com.handysparksoft.screentouchlocker.ui.theme.White90
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -56,24 +56,28 @@ fun OnboardingScreen(canDrawOverlays: Boolean) {
     val context = LocalContext.current
     val pagerState = rememberPagerState()
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        BackgroundImage(pagerState)
+    Surface {
+        Box(modifier = Modifier.fillMaxSize()) {
+            BackgroundImage(pagerState)
 
-        GradientWhiteBox()
+            GradientWhiteBox()
 
-        Column {
-            OnboardingContentPager(pagerState)
+            Column {
+                OnboardingContentPager(pagerState)
 
-            HorizontalPagerIndicator(
-                pagerState = pagerState,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+                HorizontalPagerIndicator(
+                    pagerState = pagerState,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 32.dp)
+                )
 
-            ConfigOptions(modifier = Modifier.padding(horizontal = 16.dp, vertical = 48.dp))
-        }
+                ConfigOptions(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp))
+            }
 
-        Box(Modifier.align(Alignment.BottomCenter)) {
-            LockActionContent(canDrawOverlays, context)
+            Box(Modifier.align(Alignment.BottomCenter)) {
+                LockActionContent(canDrawOverlays, context)
+            }
         }
     }
 }
@@ -101,7 +105,12 @@ private fun GradientWhiteBox() {
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, White90, Color.White, Color.White)
+                    colors = listOf(
+                        Color.Transparent,
+                        MaterialTheme.colors.surface.copy(alpha = .95f),
+                        MaterialTheme.colors.surface,
+                        MaterialTheme.colors.surface
+                    )
                 )
             )
     )

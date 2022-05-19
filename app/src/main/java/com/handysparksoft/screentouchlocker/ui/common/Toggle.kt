@@ -5,7 +5,6 @@ import androidx.compose.material.Switch
 import androidx.compose.material.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.handysparksoft.screentouchlocker.ui.theme.Disabled
 
 @Composable
@@ -23,7 +22,7 @@ fun Toggle(
             checkedThumbColor = MaterialTheme.colors.primary,
             checkedTrackColor = MaterialTheme.colors.primary,
             uncheckedThumbColor = Disabled,
-            uncheckedTrackColor = Color.Black,
+            uncheckedTrackColor = MaterialTheme.colors.onSurface
         )
     )
 }

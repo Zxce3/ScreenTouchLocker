@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -32,58 +33,60 @@ fun ConfigOptions(modifier: Modifier) {
     val (enableShakeAndLock, onEnableShakeAndLockValueChange) = remember { mutableStateOf(prefs.enableShakeAndLock) }
     val (enableShakeAndUnlock, onEnableShakeAndUnlockValueChange) = remember { mutableStateOf(prefs.enableShakeAndUnlock) }
 
-    Column(modifier = modifier) {
-        Text(
-            text = stringResource(id = R.string.config_options),
-            style = MaterialTheme.typography.h5,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+    Surface {
+        Column(modifier = modifier) {
+            Text(
+                text = stringResource(id = R.string.config_options),
+                style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
-        Column(modifier = Modifier.padding(start = 16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = stringResource(R.string.config_option_show_locked_touches))
-                Spacer(modifier = Modifier.weight(1f))
-                Toggle(
-                    checked = showLockedTouches,
-                    onCheckedChange = { checked ->
-                        onShowLockedTouchesValueChange(checked)
-                        scope.launch { prefs.showLockedTouches = checked }
-                    }
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = stringResource(R.string.config_option_vibrate))
-                Spacer(modifier = Modifier.weight(1f))
-                Toggle(
-                    checked = vibrate,
-                    onCheckedChange = { checked ->
-                        onVibrateValueChange(checked)
-                        scope.launch { prefs.vibrate = checked }
-                    }
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = stringResource(R.string.config_option_enable_shake_and_lock))
-                Spacer(modifier = Modifier.weight(1f))
-                Toggle(
-                    checked = enableShakeAndLock,
-                    onCheckedChange = { checked ->
-                        onEnableShakeAndLockValueChange(checked)
-                        scope.launch { prefs.enableShakeAndLock = checked }
-                    }
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = stringResource(R.string.config_option_enable_shake_and_unlock))
-                Spacer(modifier = Modifier.weight(1f))
-                Toggle(
-                    checked = enableShakeAndUnlock,
-                    onCheckedChange = { checked ->
-                        onEnableShakeAndUnlockValueChange(checked)
-                        scope.launch { prefs.enableShakeAndUnlock = checked }
-                    }
-                )
+            Column(modifier = Modifier.padding(start = 16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = stringResource(R.string.config_option_show_locked_touches))
+                    Spacer(modifier = Modifier.weight(1f))
+                    Toggle(
+                        checked = showLockedTouches,
+                        onCheckedChange = { checked ->
+                            onShowLockedTouchesValueChange(checked)
+                            scope.launch { prefs.showLockedTouches = checked }
+                        }
+                    )
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = stringResource(R.string.config_option_vibrate))
+                    Spacer(modifier = Modifier.weight(1f))
+                    Toggle(
+                        checked = vibrate,
+                        onCheckedChange = { checked ->
+                            onVibrateValueChange(checked)
+                            scope.launch { prefs.vibrate = checked }
+                        }
+                    )
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = stringResource(R.string.config_option_enable_shake_and_lock))
+                    Spacer(modifier = Modifier.weight(1f))
+                    Toggle(
+                        checked = enableShakeAndLock,
+                        onCheckedChange = { checked ->
+                            onEnableShakeAndLockValueChange(checked)
+                            scope.launch { prefs.enableShakeAndLock = checked }
+                        }
+                    )
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = stringResource(R.string.config_option_enable_shake_and_unlock))
+                    Spacer(modifier = Modifier.weight(1f))
+                    Toggle(
+                        checked = enableShakeAndUnlock,
+                        onCheckedChange = { checked ->
+                            onEnableShakeAndUnlockValueChange(checked)
+                            scope.launch { prefs.enableShakeAndUnlock = checked }
+                        }
+                    )
+                }
             }
         }
     }
