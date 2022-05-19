@@ -31,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
@@ -119,7 +120,7 @@ private fun OnboardingContentPager(pagerState: PagerState) {
             page = page,
             modifier = Modifier
                 .fillMaxWidth(0.75f)
-                .padding(top = 100.dp)
+                .padding(top = 50.dp)
                 .defaultMinSize(minHeight = 220.dp)
                 .then(animatedModifier)
         )
@@ -232,6 +233,7 @@ private fun getAnimatedGraphicsLayer(offsetForPage: Float) = Modifier.graphicsLa
 }
 
 @Preview
+@Preview(device = Devices.NEXUS_5)
 @Composable
 fun OnboardingScreen() {
     ScreenTouchLockerTheme {
