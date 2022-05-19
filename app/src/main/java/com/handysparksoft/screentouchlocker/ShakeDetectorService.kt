@@ -38,7 +38,7 @@ class ShakeDetectorService : Service() {
     private fun startShakeDetectorService() {
         val sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         shakeDetector = ShakeDetector(onShakeListener)
-        shakeDetector.setSensitivity(ShakeDetector.SENSITIVITY_HARD + 5)
+        shakeDetector.setSensitivity(ShakeDetector.SENSITIVITY_HARD + SENSITIVITY_INCREMENT)
         shakeDetector.start(sensorManager)
     }
 
@@ -72,3 +72,5 @@ class ShakeDetectorService : Service() {
 }
 
 enum class ShakeDetectorAction { ActionShakeStop }
+
+private const val SENSITIVITY_INCREMENT = 10

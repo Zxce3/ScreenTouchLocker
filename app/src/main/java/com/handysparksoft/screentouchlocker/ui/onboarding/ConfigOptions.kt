@@ -34,7 +34,7 @@ fun ConfigOptions(modifier: Modifier) {
 
     Column(modifier = modifier) {
         Text(
-            text = "Configuration",
+            text = stringResource(id = R.string.config_options),
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 16.dp)

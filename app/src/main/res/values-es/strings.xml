@@ -4,8 +4,8 @@
 
     <string name="onboarding_title_1">Screen Touch Locker</string>
     <string name="onboarding_subtitle_1">Bloquea tu pantalla fácilmente y disfruta del contenido evitando toques indeseados.</string>
-    <string name="onboarding_title_2">Agita y bloques</string>
-    <string name="onboarding_subtitle_2">¿Te gustaría una activación ultra rápida? Simplemente agita tu dispositivo y listo!</string>
+    <string name="onboarding_title_2">Agita y bloquea</string>
+    <string name="onboarding_subtitle_2">¿Te gustaría una activación rápida y cómoda? ¡Simplemente agita tu dispositivo y listo!</string>
     <string name="onboarding_title_3">Acceso rápido en la barra</string>
     <string name="onboarding_subtitle_3">Screen Touch Locker también ofrece un acceso rápido (Tile) en la barra superior de notificaciones. Edita tus accesos para tener tu acceso rápido de bloqueo siempre a mano.</string>
 
@@ -19,8 +19,9 @@
     <string name="screen_locked_content_touch_locked">Toque bloqueado</string>
     <string name="required_overlay_permissions">Puede que necesites dar permisos a la app de ScreenTouchLocker para que funcione correctamente.</string>
     <string name="lock_the_screen">Bloquear la pantalla</string>
+    <string name="config_options">Configuración</string>
     <string name="config_option_show_locked_touches">Mostrar toques bloqueados</string>
     <string name="config_option_vibrate">Vibración</string>
-    <string name="config_option_enable_shake_and_lock">Habilitar Agitar y Bloquear</string>
-    <string name="config_option_enable_shake_and_unlock">Habilitar Agitar y Desbloquear</string>
+    <string name="config_option_enable_shake_and_lock">Agitar y Bloquear</string>
+    <string name="config_option_enable_shake_and_unlock">Agitar y Desbloquear</string>
 </resources>
