@@ -29,8 +29,17 @@ jobs:
     - name: Run Tests
       run: ./gradlew test
 
-#      - name: Run Lint
-#        run: ./gradlew lint
+    - name: Run Lint
+      run: ./gradlew lint
 
-#      - name: Build Project (Debug)
-#        run: ./gradlew assembleDebug
+    - name: Build Project (Debug)
+      run: ./gradlew assembleDebug
+
+    - name: Build Project (Release)
+      run: ./gradlew assembleRelease
+
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: release-apk
+        path: app/build/outputs/apk/release/app-release.apk
