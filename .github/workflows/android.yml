@@ -32,6 +32,9 @@ jobs:
         mkdir -p ./keystore/keystore_new
         echo $ENCODED_KEYSTORE | base64 --decode > ./keystore/keystore_new/screentouchlocker.jks
 
+    - name: Check ENCODED_KEYSTORE value
+      run: echo $ENCODED_KEYSTORE
+
     - name: Create keystore.properties
       env:
         KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
