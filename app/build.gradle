@@ -11,6 +11,7 @@ try {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 } catch (Exception e) {
     println("WARNING! Keystore files not found! KeystoreProperties couldn't be loaded")
+    // This try-catch block is added to handle the case when the keystore file is not found
 }
 
 android {
