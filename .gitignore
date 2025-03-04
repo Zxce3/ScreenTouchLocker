@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/androidstudio,kotlin,android
 # Edit at https://www.toptal.com/developers/gitignore?templates=androidstudio,kotlin,android
 
@@ -31,6 +30,7 @@ render.experimental.xml
 /keystore
 *.jks
 *.keystore
+!keystore/keystore_new/screentouchlocker.jks
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
